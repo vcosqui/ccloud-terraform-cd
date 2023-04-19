@@ -10,6 +10,7 @@ jobs:
     name: Terraform
     environment: staging
     steps:
+      - uses: actions/checkout@v3
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -17,7 +18,7 @@ jobs:
           terraform_wrapper: false
       - name: Terraform apply
         id: init
-        run: cd .. && pwd && ls && terraform init && terraform apply -auto-approve
+        run: pwd && ls && terraform init && terraform apply -auto-approve
         env:
           CONFLUENT_CLOUD_API_KEY: ${{ secrets.TF_VAR_CONFLUENT_CLOUD_API_KEY }}
           CONFLUENT_CLOUD_API_SECRET: ${{ secrets.TF_VAR_CONFLUENT_CLOUD_API_SECRET }}
