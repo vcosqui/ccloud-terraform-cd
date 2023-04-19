@@ -8,14 +8,16 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
     name: Terraform
-    environment: staging
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.4.5
           terraform_wrapper: false
+
       - name: Terraform apply
         id: init
         run: pwd && ls && terraform init && terraform apply -auto-approve
