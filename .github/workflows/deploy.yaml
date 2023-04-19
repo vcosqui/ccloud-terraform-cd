@@ -22,6 +22,6 @@ jobs:
         id: init
         run: pwd && ls && terraform init && terraform apply -auto-approve
         env:
-          TF_VAR_CONFLUENT_CLOUD_API_KEY: ${{ secrets.TF_VAR_CONFLUENT_CLOUD_API_KEY }}
-          TF_VAR_CONFLUENT_CLOUD_API_SECRET: ${{ secrets.TF_VAR_CONFLUENT_CLOUD_API_SECRET }}
+          TF_VAR_confluent_cloud_api_key: ${{ secrets.TF_VAR_confluent_cloud_api_key }}
+          TF_VAR_confluent_cloud_api_secret: ${{ secrets.TF_VAR_confluent_cloud_api_secret }}
         shell: bash
