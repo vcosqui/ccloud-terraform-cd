@@ -4,10 +4,18 @@ on:
   push:
     branches:
       - main
+
+env:
+  TF_VAR_confluent_cloud_api_key: ${{ secrets.TF_VAR_confluent_cloud_api_key }}
+  TF_VAR_confluent_cloud_api_secret: ${{ secrets.TF_VAR_confluent_cloud_api_secret }}
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
     name: Terraform
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -18,10 +26,10 @@ jobs:
           terraform_version: 1.4.5
           terraform_wrapper: false
 
+      - name: Terraform init
+        id: init
+        run: terraform init
+
       - name: Terraform apply
         id: init
-        run: pwd && ls && terraform init && terraform apply -auto-approve
-        env:
-          TF_VAR_confluent_cloud_api_key: ${{ secrets.TF_VAR_confluent_cloud_api_key }}
-          TF_VAR_confluent_cloud_api_secret: ${{ secrets.TF_VAR_confluent_cloud_api_secret }}
-        shell: bash
+        run: terraform apply -auto-approve
