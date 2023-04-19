@@ -17,7 +17,7 @@ jobs:
           terraform_wrapper: false
       - name: Terraform apply
         id: init
-        run: pwd && ls && terraform init && terraform apply -auto-approve
+        run: cd .. && pwd && ls && terraform init && terraform apply -auto-approve
         env:
           CONFLUENT_CLOUD_API_KEY: ${{ secrets.TF_VAR_CONFLUENT_CLOUD_API_KEY }}
           CONFLUENT_CLOUD_API_SECRET: ${{ secrets.TF_VAR_CONFLUENT_CLOUD_API_SECRET }}
