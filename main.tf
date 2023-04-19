@@ -31,7 +31,7 @@ resource "confluent_kafka_cluster" "standard" {
 
 resource "confluent_service_account" "app-manager" {
   display_name = "app-manager-automated"
-  description  = "Service account to manage 'dev' Kafka cluster"
+  description  = "Service account to manage 'automated' Kafka cluster"
 }
 
 resource "confluent_role_binding" "app-manager-kafka-cluster-admin" {
