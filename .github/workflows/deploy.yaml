@@ -1,0 +1,24 @@
+name: 'Terraform - Deploy'
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    name: Terraform
+    environment: staging
+    steps:
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.5
+          terraform_wrapper: false
+      - name: Terraform apply
+        id: init
+        run: terraform init && terraform apply -auto-approve
+        env:
+          CONFLUENT_CLOUD_API_KEY: ${{ secrets.TF_VAR_CONFLUENT_CLOUD_API_KEY }}
+          CONFLUENT_CLOUD_API_SECRET: ${{ secrets.TF_VAR_CONFLUENT_CLOUD_API_SECRET }}
+        shell: bash
