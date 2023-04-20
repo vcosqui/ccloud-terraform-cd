@@ -20,8 +20,12 @@ provider "confluent" {
   cloud_api_secret = var.confluent_cloud_api_secret
 }
 
-resource "confluent_environment" "dev" {
-  display_name = "automated"
+
+module "dev_environment" {
+  source      = "./modules/environment"
+  environment = {
+    display_name = "dev-env"
+  }
 }
 
 resource "confluent_kafka_cluster" "standard" {
@@ -33,7 +37,7 @@ resource "confluent_kafka_cluster" "standard" {
     cku = 1
   }
   environment {
-    id = confluent_environment.dev.id
+    id = module.dev_environment.environment.id
   }
 }
 
@@ -63,7 +67,7 @@ resource "confluent_api_key" "app-manager-kafka-api-key" {
     kind        = confluent_kafka_cluster.standard.kind
 
     environment {
-      id = confluent_environment.dev.id
+      id = module.dev_environment.environment.id
     }
   }
   depends_on = [
@@ -161,7 +165,7 @@ resource "confluent_api_key" "app-producer-kafka-api-key-v2" {
     kind        = confluent_kafka_cluster.standard.kind
 
     environment {
-      id = confluent_environment.dev.id
+      id = module.dev_environment.environment.id
     }
   }
 }
@@ -175,7 +179,7 @@ resource "confluent_role_binding" "app-producer-developer-pageviews-write-to-top
 
 resource "confluent_connector" "source" {
   environment {
-    id = confluent_environment.dev.id
+    id = module.dev_environment.environment.id
   }
   kafka_cluster {
     id = confluent_kafka_cluster.standard.id
