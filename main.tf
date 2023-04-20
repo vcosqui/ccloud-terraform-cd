@@ -171,3 +171,40 @@ resource "confluent_role_binding" "app-producer-developer-pageviews-write-to-top
   role_name   = "ResourceOwner"
   crn_pattern = "${confluent_kafka_cluster.standard.rbac_crn}/kafka=${confluent_kafka_cluster.standard.id}/topic=${confluent_kafka_topic.pageviews.topic_name}"
 }
+
+
+resource "confluent_connector" "source" {
+  environment {
+    id = confluent_environment.dev.id
+  }
+  kafka_cluster {
+    id = confluent_kafka_cluster.standard.id
+  }
+
+  config_sensitive = {}
+
+  config_nonsensitive = {
+    "connector.class"                = "DatagenSource"
+    "name"                           = "source-pageviews-datagen"
+    "kafka.auth.mode"                = "SERVICE_ACCOUNT"
+    "kafka.service.account.id"       = confluent_service_account.app-producer.id
+    "kafka.topic"                    = confluent_kafka_topic.pageviews.topic_name
+    "output.data.format"             = "JSON"
+    "quickstart"                     = "pageviews"
+    "tasks.max"                      = "1"
+    "key.converter"                  = "org.apache.kafka.connect.storage.StringConverter"
+    "value.converter"                = "org.apache.kafka.connect.json.JsonConverter"
+    "value.converter.schemas.enable" = "false"
+    "max.interval"                   = 100
+    "iterations"                     = 10000
+  }
+
+  depends_on = [
+    confluent_service_account.app-producer,
+    confluent_role_binding.app-producer-developer-pageviews-write-to-topic
+  ]
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
