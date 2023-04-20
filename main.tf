@@ -195,7 +195,7 @@ resource "confluent_connector" "source" {
     "key.converter"                  = "org.apache.kafka.connect.storage.StringConverter"
     "value.converter"                = "org.apache.kafka.connect.json.JsonConverter"
     "value.converter.schemas.enable" = "false"
-    "max.interval"                   = 100
+    "max.interval"                   = 500
     "iterations"                     = 10000
   }
 
