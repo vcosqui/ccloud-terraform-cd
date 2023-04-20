@@ -24,7 +24,7 @@ provider "confluent" {
 module "dev_environment" {
   source      = "./modules/environment"
   environment = {
-    display_name = "dev-env"
+    display_name = var.confluent_cloud_environment_name
   }
 }
 
