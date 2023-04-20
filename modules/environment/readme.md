@@ -1,4 +1,4 @@
-# One Awesome Module
+# Confluent Cloud Environment Module
 
 ## Purpose
 
