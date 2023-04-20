@@ -1,6 +1,7 @@
 name: 'Terraform - Deploy'
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -16,7 +17,7 @@ env:
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    name: Terraform
+    name: Terraform Apply
     defaults:
       run:
         shell: bash
