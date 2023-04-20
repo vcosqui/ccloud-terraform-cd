@@ -30,7 +30,7 @@ jobs:
 
       - name: Terraform init
         id: init
-        run: terraform init
+        run: terraform init -backend-config=config.azurerm.tfbackend
 
       - name: Terraform destroy
         id: destroy
