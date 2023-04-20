@@ -5,6 +5,14 @@ terraform {
       version = "1.13.0"
     }
   }
+
+  backend "azurerm" {
+    resource_group_name  = "vcosqui-rg"
+    storage_account_name = "vcosquitfstorage"
+    container_name       = "tfstate"
+    key                  = "prod.terraform.tfstate"
+  }
+
 }
 
 provider "confluent" {
@@ -71,8 +79,8 @@ resource "confluent_kafka_topic" "pageviews" {
   partitions_count = 6
   rest_endpoint    = confluent_kafka_cluster.standard.rest_endpoint
   config           = {
-    "retention.ms"                      = "-1"
-    "cleanup.policy"                    = "delete"
+    "retention.ms"   = "-1"
+    "cleanup.policy" = "delete"
   }
   credentials {
     key    = confluent_api_key.app-manager-kafka-api-key.id
@@ -88,8 +96,8 @@ resource "confluent_kafka_topic" "connect-cp-kafka-connect-offset" {
   partitions_count = 6
   rest_endpoint    = confluent_kafka_cluster.standard.rest_endpoint
   config           = {
-    "retention.ms"                      = "-1"
-    "cleanup.policy"                    = "compact"
+    "retention.ms"   = "-1"
+    "cleanup.policy" = "compact"
   }
   credentials {
     key    = confluent_api_key.app-manager-kafka-api-key.id
@@ -105,8 +113,8 @@ resource "confluent_kafka_topic" "connect-cp-kafka-connect-status" {
   partitions_count = 6
   rest_endpoint    = confluent_kafka_cluster.standard.rest_endpoint
   config           = {
-    "retention.ms"                      = "-1"
-    "cleanup.policy"                    = "compact"
+    "retention.ms"   = "-1"
+    "cleanup.policy" = "compact"
   }
   credentials {
     key    = confluent_api_key.app-manager-kafka-api-key.id
@@ -122,8 +130,8 @@ resource "confluent_kafka_topic" "connect-cp-kafka-connect-config" {
   partitions_count = 1
   rest_endpoint    = confluent_kafka_cluster.standard.rest_endpoint
   config           = {
-    "retention.ms"                      = "-1"
-    "cleanup.policy"                    = "compact"
+    "retention.ms"   = "-1"
+    "cleanup.policy" = "compact"
   }
   credentials {
     key    = confluent_api_key.app-manager-kafka-api-key.id
