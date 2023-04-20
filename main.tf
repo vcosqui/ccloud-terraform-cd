@@ -203,8 +203,4 @@ resource "confluent_connector" "source" {
     confluent_service_account.app-producer,
     confluent_role_binding.app-producer-developer-pageviews-write-to-topic
   ]
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
