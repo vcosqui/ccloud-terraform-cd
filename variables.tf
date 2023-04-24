@@ -21,9 +21,9 @@ variable "environment" {
 # Confluent Cloud Service Account
 variable "service_account" {
   description = "Service Account and Role for cluster management."
-  type = object({
-    name = string
-    role = string
+  type        = object({
+    display_name = string
+    role         = string
   })
 }
 

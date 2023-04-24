@@ -5,14 +5,21 @@ module "dev_environment" {
   confluent_cloud_api_secret = var.confluent_cloud_api_secret
 }
 
-module "cluster" {
-  source          = "github.com/mcolomerc/terraform-confluent-kafka-cluster"
-  environment     = module.dev_environment.environment.id
-  cluster         = var.cluster
-  service_account = var.service_account
+module "cluster_admin_account" {
+  source                     = "github.com/vcosqui/terraform-confluent-kafka-iam"
+  service_account            = var.service_account
   confluent_cloud_api_key    = var.confluent_cloud_api_key
   confluent_cloud_api_secret = var.confluent_cloud_api_secret
 }
+
+#module "cluster" {
+#  source          = "github.com/mcolomerc/terraform-confluent-kafka-cluster"
+#  environment     = module.dev_environment.environment.id
+#  cluster         = var.cluster
+#  service_account = var.service_account
+#  confluent_cloud_api_key    = var.confluent_cloud_api_key
+#  confluent_cloud_api_secret = var.confluent_cloud_api_secret
+#}
 #
 #resource "confluent_kafka_cluster" "standard" {
 #  display_name = "automated"

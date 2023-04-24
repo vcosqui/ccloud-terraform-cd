@@ -3,8 +3,8 @@ environment = {
 }
 
 service_account = {
-  name = "service-account"
-  role = "CloudClusterAdmin"
+  display_name = "service-account"
+  role         = "CloudClusterAdmin"
 }
 
 cluster = {
